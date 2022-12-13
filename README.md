@@ -80,7 +80,7 @@ Solar Water Energy Generator (SWEG)
 |Buttons	                              |     5|
 |Κουτί κατασκευής	                    |    50|
 |Μπαταρία	                            |     20|
-|Ηλεκτρονικά (φορτιστής/Buck-boost conv.)|	 40|
+|Ηλεκτρονικά (φορτιστής/Buck-boost converters)|	 40|
 |Wires	                                   |  10|
 |Σύνολο	                                 | 245|
 
