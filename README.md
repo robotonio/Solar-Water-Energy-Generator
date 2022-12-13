@@ -25,6 +25,8 @@ Solar Water Energy Generator (SWEG)
 1)	Thermoelectric Cooler Peltier Module (TEC)
 2)	Αντλία
 3)	Θερμός (με ζεστό νερό)
+
+
                            Ηλεκτρονικά
 1)	Πλακέτα microbit V2
 2)	LCD οθόνη
