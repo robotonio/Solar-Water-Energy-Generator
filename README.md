@@ -1,5 +1,7 @@
 # Solar-Water-Energy-Generator
 
+Συμμετοχή στον Πανελλήνιο διαγωνισμό FLL
+
 Solar Water Energy Generator (SWEG)
 
 Ομάδα: Moving Minds
