@@ -1,4 +1,3 @@
-#programmed using python microbit makecode 
 class Project:
     def __init__(self):
         # pins
@@ -6,6 +5,10 @@ class Project:
         IN2_PIN = pins.P2
         ENA_PIN = pins.P0
         TEMP_PIN = pins.P8
+        BTN_NEXT = pins.P6
+        BTN_OK = pins.P7
+        BTN_PREV = pins.P9
+
         # Values
         self.pump_speed = 0
         self.temp = 0
@@ -41,6 +44,7 @@ class Project:
      
     
     def update_values(self, rep): 
+        global updated
         if rep == 1:
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("Water Temp:",0, 0)
@@ -67,22 +71,27 @@ class Project:
                 I2C_LCD1602.ShowString(self.charging_status, 2, 1)
             else:
                 I2C_LCD1602.ShowString(self.charging_status, 4, 1) 
-
-    def update_screen(self):
-        SWEG. update_values(1)
-        basic.pause(2000)
-        SWEG. update_values(2)
-        basic.pause(2000)
-        SWEG. update_values(3)
-        basic.pause(2000)
-        SWEG. update_values(4)
-        basic.pause(2000)
-        SWEG. update_values(5)
-        basic.pause(2000)
-
-
+        updated = True
+        
 SWEG = Project()
+updated = True
+counter=1
 def on_forever():
-    SWEG.update_screen()
+    global counter, updated
+    if counter < 0 or counter > 5:
+        counter = 1
+
+    if pins.digital_read_pin(DigitalPin.P5) == 0:
+        updated = False
+        counter = ((counter + 1)%6)+1   
+
+    if pins.digital_read_pin(DigitalPin.P12) == 0:
+        updated = False
+        counter = ((counter - 1)%6)+1
+    if not updated:
+        SWEG.update_values(counter)
+    else:
+        pass
+        
 
 basic.forever(on_forever)
