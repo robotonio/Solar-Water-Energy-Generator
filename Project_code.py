@@ -44,7 +44,6 @@ class Project:
      
     
     def update_values(self, rep): 
-        global updated
         if rep == 1:
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("Water Temp:",0, 0)
@@ -71,27 +70,37 @@ class Project:
                 I2C_LCD1602.ShowString(self.charging_status, 2, 1)
             else:
                 I2C_LCD1602.ShowString(self.charging_status, 4, 1) 
-        updated = True
+
         
 SWEG = Project()
-updated = True
 counter=1
-def on_forever():
-    global counter, updated
+
+def on_button_pressed_a():
+    global counter
     if counter < 0 or counter > 5:
-        counter = 1
-
-    if pins.digital_read_pin(DigitalPin.P5) == 0:
-        updated = False
-        counter = ((counter + 1)%6)+1   
-
-    if pins.digital_read_pin(DigitalPin.P12) == 0:
-        updated = False
-        counter = ((counter - 1)%6)+1
-    if not updated:
-        SWEG.update_values(counter)
+            counter = 1
     else:
-        pass
-        
+        counter = ((counter + 1)%6)+1
+
+    SWEG.update_values(counter)
+            
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def on_button_pressed_b():
+    global counter
+    if counter < 0 or counter > 5:
+            counter = 1
+    else:
+        counter = ((counter - 1)%6)+1
+    
+    SWEG.update_values(counter)
+            
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+
+def on_forever():
+    pass
 
 basic.forever(on_forever)
+
+
