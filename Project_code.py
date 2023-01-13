@@ -19,36 +19,33 @@ class Project:
         # i2c init
         I2C_LCD1602.LcdInit(39)
         I2C_LCD1602.clear()
-        #DHT11 init
-        dht11_dht22.select_temp_type(tempType.CELSIUS)
-        dht11_dht22.query_data(DHTtype.DHT11, DigitalPin.P8, True, False, True)
+        I2C_LCD1602.clear()
+        I2C_LCD1602.show_string("Moving Minds", 2, 0)
+        I2C_LCD1602.show_string("Project!", 4, 1)
         #set H bridge rotation  
         pins.digital_write_pin(DigitalPin.P1, 0)
         pins.digital_write_pin(DigitalPin.P2, 1)
         pins.analog_write_pin(AnalogPin.P0, 0)
     
     def get_temp(self):
-        self.temp = dht11_dht22.read_data(dataType.TEMPERATURE)
+        self.temp = 45
     
     def set_motor_speed(self, speed=0): 
         self.pump_speed = 10*speed
         pins.analog_write_pin(AnalogPin.P0, self.pump_speed)
      
-    
     def get_battery_voltage(self):  
         self.bat_voltage = 3.89
      
-    
     def get_generator_voltage(self):  
         self.gen_voltage = 10.2
      
-    
     def update_values(self, rep): 
         if rep == 1:
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("Water Temp:",0, 0)
             self.get_temp()
-            I2C_LCD1602.ShowString(self.temp +'C', 5, 1)
+            I2C_LCD1602.ShowString(self.temp +'C', 6, 1)
         if rep == 2:
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("Motor Speed:",0, 0)
@@ -80,7 +77,7 @@ def on_button_pressed_a():
     if counter < 0 or counter > 5:
             counter = 1
     else:
-        counter = ((counter + 1)%6)+1
+        counter = counter + 1
 
     SWEG.update_values(counter)
             
@@ -91,16 +88,14 @@ def on_button_pressed_b():
     if counter < 0 or counter > 5:
             counter = 1
     else:
-        counter = ((counter - 1)%6)+1
-    
+        counter = counter - 1
+
     SWEG.update_values(counter)
             
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
 
 def on_forever():
-    pass
+    SWEG.set_motor_speed(0)
 
 basic.forever(on_forever)
-
-
