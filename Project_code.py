@@ -1,14 +1,5 @@
 class Project:
     def __init__(self):
-        # pins
-        IN1_PIN = pins.P1
-        IN2_PIN = pins.P2
-        ENA_PIN = pins.P0
-        TEMP_PIN = pins.P8
-        BTN_NEXT = pins.P6
-        BTN_OK = pins.P7
-        BTN_PREV = pins.P9
-
         # Values
         self.pump_speed = 0
         self.temp = 0
@@ -34,14 +25,14 @@ class Project:
 
     def get_temp(self):
         val = smarthome.read_temperature(TMP36Type.TMP36_TEMPERATURE_C, AnalogPin.P0)
-        self.temp = val
+        self.temp = val+10
 
     def set_motor_speed(self, speed=0): 
         self.pump_speed = 10*speed
         pins.analog_write_pin(AnalogPin.P0, self.pump_speed)
 
     def set_battery_voltage(self):
-        pass
+        self.bat_voltage = 12.6
             
     def set_charging_status(self):
         if self.gen_voltage > 0:
@@ -54,7 +45,7 @@ class Project:
     
     def get_battery_percentage(self):
         val = self.bat_voltage
-        return (val/14.2)*100
+        return (val/12.6)*100
 
     def turn_off_fan(self):
         self.fan = 1
@@ -86,7 +77,7 @@ class Project:
     def update_values(self, rep): 
         if rep == 1:
             I2C_LCD1602.clear()
-            I2C_LCD1602.ShowString("Water Temp:",0, 0)
+            I2C_LCD1602.ShowString("Water side Temp:",0, 0)
             self.get_temp()
             I2C_LCD1602.ShowString(self.temp +'C', 6, 1)
         if rep == 2:
@@ -114,6 +105,7 @@ class Project:
 SWEG = Project()
 counter=1
 threshold = 50
+SWEG.turn_on_fan()
 
 def on_button_pressed_a():
     global counter
