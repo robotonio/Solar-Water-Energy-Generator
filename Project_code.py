@@ -12,7 +12,6 @@ class Project:
         # i2c init
         I2C_LCD1602.LcdInit(39)
         I2C_LCD1602.clear()
-        I2C_LCD1602.clear()
         #init screen 
         I2C_LCD1602.show_string("Moving Minds", 2, 0)
         I2C_LCD1602.show_string("Project!", 4, 1)        
