@@ -26,10 +26,6 @@ class Project:
         val = smarthome.read_temperature(TMP36Type.TMP36_TEMPERATURE_C, AnalogPin.P0)
         self.temp = val+10
 
-    def set_motor_speed(self, speed=0): 
-        self.pump_speed = 10*speed
-        pins.analog_write_pin(AnalogPin.P0, self.pump_speed)
-
     def set_battery_voltage(self):
         self.bat_voltage = 12.6
             
